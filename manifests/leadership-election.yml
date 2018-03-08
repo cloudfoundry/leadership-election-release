@@ -9,25 +9,12 @@ stemcells:
 releases:
 - name: leadership-election
   version: latest
-- name: bosh-dns
-  version: latest
-
-addons:
-- name: bosh-dns
-  include:
-    stemcell:
-    - os: ubuntu-trusty
-  jobs:
-  - name: bosh-dns
-    release: bosh-dns
 
 instance_groups:
 - name: leadership-election
   azs:
   - z1
-  - z2
   instances: 1
-  persistent_disk_type: 5GB
   vm_type: minimal
   stemcell: default
   networks:
@@ -36,8 +23,7 @@ instance_groups:
   - name: leadership-election
     release: leadership-election
     properties:
-      leadership_port: 8080
-      health_port: 6060
+      port: 8080
 
 update:
   canaries: 1
