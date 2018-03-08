@@ -1,0 +1,6 @@
+check process leadership-election
+  with pidfile /var/vcap/sys/run/leadership-election/leadership-election.pid
+  start program "/var/vcap/jobs/leadership-election/bin/ctl start"
+  stop program "/var/vcap/jobs/leadership-election/bin/ctl stop"
+  group vcap
+

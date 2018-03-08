@@ -1,0 +1,47 @@
+---
+name: leadership-election
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: latest
+
+releases:
+- name: leadership-election
+  version: latest
+- name: bosh-dns
+  version: latest
+
+addons:
+- name: bosh-dns
+  include:
+    stemcell:
+    - os: ubuntu-trusty
+  jobs:
+  - name: bosh-dns
+    release: bosh-dns
+
+instance_groups:
+- name: leadership-election
+  azs:
+  - z1
+  - z2
+  instances: 1
+  persistent_disk_type: 5GB
+  vm_type: minimal
+  stemcell: default
+  networks:
+  - name: default
+  jobs:
+  - name: leadership-election
+    release: leadership-election
+    properties:
+      leadership_port: 8080
+      health_port: 6060
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  canary_watch_time: 30000-60000
+  update_watch_time: 5000-60000
+  serial: true

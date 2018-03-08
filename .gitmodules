@@ -1,0 +1,9 @@
+[submodule "src/code.cloudfoundry.org/leadership-election"]
+	path = src/code.cloudfoundry.org/leadership-election
+	url = https://github.com/cloudfoundry/leadership-election
+[submodule "src/github.com/onsi/ginkgo"]
+	path = src/github.com/onsi/ginkgo
+	url = https://github.com/onsi/ginkgo
+[submodule "src/github.com/onsi/gomega"]
+	path = src/github.com/onsi/gomega
+	url = https://github.com/onsi/gomega

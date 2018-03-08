@@ -1,0 +1,10 @@
+---
+name: leadership-election
+
+packages:
+- leadership-election
+
+properties:
+  port:
+    description: "The port the agent will listen on for HTTP requests"
+    default: 8080

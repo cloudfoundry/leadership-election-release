@@ -1,0 +1,8 @@
+---
+name: leadership-election
+
+dependencies:
+- golang1.9.4
+
+files:
+- code.cloudfoundry.org/leadership-election/*.go # gosub
