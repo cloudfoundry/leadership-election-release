@@ -12,10 +12,10 @@ case $1 in
 
   start)
     set +e
-      killall -15 leadership-election
-      killall -9 leadership-election
-      killall -2 leadership-election
-      killall -3 leadership-election
+      killall -15 leadership-election-agent
+      killall -9 leadership-election-agent
+      killall -2 leadership-election-agent
+      killall -3 leadership-election-agent
     set -e
 
     mkdir -p $RUN_DIR $LOG_DIR
@@ -27,16 +27,16 @@ case $1 in
 
     source $ENVIRONMENT
     echo $$ > $PIDFILE
-    exec chpst -u vcap:vcap ./leadership-election &>> ${LOG_DIR}/leadership-election.log
+    exec chpst -u vcap:vcap ./leadership-election-agent &>> ${LOG_DIR}/leadership-election.log
 
     ;;
 
   stop)
     set +e
-      killall -15 leadership-election
-      killall -9 leadership-election
-      killall -2 leadership-election
-      killall -3 leadership-election
+      killall -15 leadership-election-agent
+      killall -9 leadership-election-agent
+      killall -2 leadership-election-agent
+      killall -3 leadership-election-agent
     set -e
 
     rm -f $PIDFILE

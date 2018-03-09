@@ -30,6 +30,6 @@ function sync_package() {
   )
 }
 
-sync_package leadership-election                   -app  code.cloudfoundry.org/leadership-election/leadership-election &
+sync_package leadership-election -app  code.cloudfoundry.org/leadership-election/cmd/leadership-election-agent &
 
 wait
