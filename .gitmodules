@@ -16,3 +16,6 @@
 [submodule "src/gopkg.in/yaml.v2"]
 	path = src/gopkg.in/yaml.v2
 	url = https://gopkg.in/yaml.v2
+[submodule "src/code.cloudfoundry.org/go-envstruct"]
+	path = src/code.cloudfoundry.org/go-envstruct
+	url = https://github.com/cloudfoundry/go-envstruct
