@@ -1,6 +1,10 @@
 ---
 name: leadership-election
 
+templates:
+  ctl.erb: bin/ctl
+  environment.sh.erb: bin/environment.sh
+
 packages:
 - leadership-election
 
