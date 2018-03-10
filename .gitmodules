@@ -19,3 +19,27 @@
 [submodule "src/code.cloudfoundry.org/go-envstruct"]
 	path = src/code.cloudfoundry.org/go-envstruct
 	url = https://github.com/cloudfoundry/go-envstruct
+[submodule "src/github.com/hashicorp/raft"]
+	path = src/github.com/hashicorp/raft
+	url = https://github.com/hashicorp/raft
+[submodule "src/github.com/armon/go-metrics"]
+	path = src/github.com/armon/go-metrics
+	url = https://github.com/armon/go-metrics
+[submodule "src/github.com/golang/protobuf"]
+	path = src/github.com/golang/protobuf
+	url = https://github.com/golang/protobuf
+[submodule "src/github.com/hashicorp/go-immutable-radix"]
+	path = src/github.com/hashicorp/go-immutable-radix
+	url = https://github.com/hashicorp/go-immutable-radix
+[submodule "src/github.com/hashicorp/go-msgpack"]
+	path = src/github.com/hashicorp/go-msgpack
+	url = https://github.com/hashicorp/go-msgpack
+[submodule "src/github.com/hashicorp/golang-lru"]
+	path = src/github.com/hashicorp/golang-lru
+	url = https://github.com/hashicorp/golang-lru
+[submodule "src/google.golang.org/genproto"]
+	path = src/google.golang.org/genproto
+	url = https://github.com/google/go-genproto
+[submodule "src/google.golang.org/grpc"]
+	path = src/google.golang.org/grpc
+	url = https://github.com/grpc/grpc-go

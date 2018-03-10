@@ -5,6 +5,16 @@ templates:
   ctl.erb: bin/ctl
   environment.sh.erb: bin/environment.sh
 
+provides:
+- name: leader-election-agent
+  type: leader-election-agent
+  properties:
+  - port
+
+consumes:
+- name: leader-election-agent
+  type: leader-election-agent
+
 packages:
 - leadership-election
 

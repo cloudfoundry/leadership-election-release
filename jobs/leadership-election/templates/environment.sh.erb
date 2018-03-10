@@ -1,2 +1,13 @@
 # Leadership Election
 export PORT="<%= "#{p('port')}" %>"
+
+# Clustered Configuration
+<%=
+sorted_instances=link("leader-election-agent").instances.sort_by {|i|i.address}
+index=sorted_instances.index(sorted_instances.find{|i|i.id == spec.id})
+addrs=sorted_instances.map{|i| "#{i.address}:#{p('port')}"}
+"
+export NODE_INDEX=#{index}
+export NODE_ADDRS=#{addrs.join(",")}
+"
+%>

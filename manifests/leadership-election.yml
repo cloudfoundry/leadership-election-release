@@ -14,7 +14,7 @@ instance_groups:
 - name: leadership-election
   azs:
   - z1
-  instances: 1
+  instances: 3
   vm_type: minimal
   stemcell: default
   networks:
