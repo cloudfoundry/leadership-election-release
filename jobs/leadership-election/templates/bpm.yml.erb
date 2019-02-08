@@ -1,0 +1,12 @@
+<%
+  sorted_instances=link("leader-election-agent").instances.sort_by {|i|i.address}
+  index=sorted_instances.index(sorted_instances.find{|i|i.id == spec.id})
+  addrs=sorted_instances.map{|i| "#{i.address}:#{p('port')}"}.join(',')
+%>
+processes:
+  - name: leadership-election
+    executable: /var/vcap/packages/leadership-election/leadership-election-agent
+    env:
+      PORT: <%= p("port") %>
+      NODE_INDEX: "<%= index %>"
+      NODE_ADDRS: "<%= addrs %>"
