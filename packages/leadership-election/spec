@@ -2,7 +2,7 @@
 name: leadership-election
 
 dependencies:
-- golang1.9.4
+- golang1.11.5
 
 files:
 - code.cloudfoundry.org/go-envstruct/*.go # gosub
