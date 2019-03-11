@@ -38,7 +38,6 @@ src/github.com/kisielk/gotool
 /src/github.com/mvdan/lint
 /src/honnef.co/go
 src/github.com/codegangsta/
-src/github.com/vito/
 
 # cert script output
 loggregator-certs
