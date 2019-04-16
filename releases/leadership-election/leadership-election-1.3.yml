@@ -1,0 +1,25 @@
+name: leadership-election
+version: "1.3"
+commit_hash: 1e98fff
+uncommitted_changes: false
+jobs:
+- name: leadership-election
+  version: 05f316e8393f35f3b1916fd86f414a3879405b220a641e7682f5c6766dc7c89a
+  fingerprint: 05f316e8393f35f3b1916fd86f414a3879405b220a641e7682f5c6766dc7c89a
+  sha1: sha256:1e62d5e536d273f622c50fb475f12c96499cb6ff4443a8ba39257f59619e2240
+packages:
+- name: golang1.12.4
+  version: 5ab93820e249a0923bda5ac6394074c0b8fef3b35a65a876b0eaeca879a68912
+  fingerprint: 5ab93820e249a0923bda5ac6394074c0b8fef3b35a65a876b0eaeca879a68912
+  sha1: sha256:fbb51f302f6b80bd3535f13ffe3041b64169d07a107924c8d04b35017382bc8e
+  dependencies: []
+- name: leadership-election
+  version: 33252b45b2677302c4f7e4235bf24835b77be24276bacb0f3625a3b7ba6784b3
+  fingerprint: 33252b45b2677302c4f7e4235bf24835b77be24276bacb0f3625a3b7ba6784b3
+  sha1: sha256:5b2b93ff3b054afeb4552e751b4c0f17faeb35f9aac297e4719f5c4eb551b834
+  dependencies:
+  - golang1.12.4
+license:
+  version: d4cf0e579318e6efe5c3b6e99f8f3d774a101106794e5898f1d666f7a3225e55
+  fingerprint: d4cf0e579318e6efe5c3b6e99f8f3d774a101106794e5898f1d666f7a3225e55
+  sha1: sha256:1c0b80faffae7c997b795127d258f8116768ba477e5ae308002047c2987e7881
