@@ -22,3 +22,6 @@ properties:
   port:
     description: "The port the agent will listen on for HTTP requests"
     default: 8080
+  health_port:
+    description: "The port where debug information will be served"
+    default: 6060

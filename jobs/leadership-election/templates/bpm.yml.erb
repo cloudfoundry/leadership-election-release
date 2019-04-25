@@ -8,5 +8,6 @@ processes:
     executable: /var/vcap/packages/leadership-election/leadership-election-agent
     env:
       PORT: <%= p("port") %>
+      HEALTH_PORT: <%= p("health_port") %>
       NODE_INDEX: "<%= index %>"
       NODE_ADDRS: "<%= addrs %>"
