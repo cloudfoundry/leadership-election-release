@@ -1,7 +1,5 @@
 # code.cloudfoundry.org/go-envstruct v1.4.0
 code.cloudfoundry.org/go-envstruct
-# code.cloudfoundry.org/leadership-election v0.0.0-20180329214717-ac47336e92cc
-code.cloudfoundry.org/leadership-election/app/agent
 # github.com/armon/go-metrics v0.0.0-20190430140413-ec5e00d3c878
 github.com/armon/go-metrics
 # github.com/hashicorp/go-immutable-radix v1.0.0

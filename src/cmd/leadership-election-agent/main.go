@@ -9,7 +9,7 @@ import (
 
 	_ "net/http/pprof"
 
-	envstruct "code.cloudfoundry.org/go-envstruct"
+	"code.cloudfoundry.org/go-envstruct"
 	"code.cloudfoundry.org/leadership-election/app/agent"
 )
 
