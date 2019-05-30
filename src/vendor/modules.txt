@@ -2,13 +2,15 @@
 code.cloudfoundry.org/go-envstruct
 # github.com/armon/go-metrics v0.0.0-20190430140413-ec5e00d3c878
 github.com/armon/go-metrics
-# github.com/hashicorp/go-immutable-radix v1.0.0
+# github.com/hashicorp/go-hclog v0.9.2
+github.com/hashicorp/go-hclog
+# github.com/hashicorp/go-immutable-radix v1.1.0
 github.com/hashicorp/go-immutable-radix
 # github.com/hashicorp/go-msgpack v0.5.5
 github.com/hashicorp/go-msgpack/codec
-# github.com/hashicorp/golang-lru v0.5.0
+# github.com/hashicorp/golang-lru v0.5.1
 github.com/hashicorp/golang-lru/simplelru
-# github.com/hashicorp/raft v1.0.1
+# github.com/hashicorp/raft v1.1.0
 github.com/hashicorp/raft
 # github.com/hpcloud/tail v1.0.0
 github.com/hpcloud/tail
@@ -48,13 +50,13 @@ github.com/onsi/gomega/matchers/support/goraph/bipartitegraph
 github.com/onsi/gomega/matchers/support/goraph/edge
 github.com/onsi/gomega/matchers/support/goraph/node
 github.com/onsi/gomega/matchers/support/goraph/util
-# golang.org/x/net v0.0.0-20181201002055-351d144fa1fc
+# golang.org/x/net v0.0.0-20190522155817-f3200d17e092
 golang.org/x/net/html/charset
 golang.org/x/net/html
 golang.org/x/net/html/atom
-# golang.org/x/sys v0.0.0-20180909124046-d0be0721c37e
+# golang.org/x/sys v0.0.0-20190529164535-6a60838ec259
 golang.org/x/sys/unix
-# golang.org/x/text v0.3.0
+# golang.org/x/text v0.3.2
 golang.org/x/text/encoding
 golang.org/x/text/encoding/charmap
 golang.org/x/text/encoding/htmlindex
@@ -69,10 +71,12 @@ golang.org/x/text/encoding/unicode
 golang.org/x/text/language
 golang.org/x/text/internal/utf8internal
 golang.org/x/text/runes
+golang.org/x/text/internal/language
+golang.org/x/text/internal/language/compact
 golang.org/x/text/internal/tag
 # gopkg.in/fsnotify.v1 v1.4.7
 gopkg.in/fsnotify.v1
 # gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7
 gopkg.in/tomb.v1
-# gopkg.in/yaml.v2 v2.2.1
+# gopkg.in/yaml.v2 v2.2.2
 gopkg.in/yaml.v2
