@@ -21,6 +21,7 @@ require (
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
 	github.com/prometheus/common v0.6.0 // indirect
+	github.com/prometheus/procfs v0.0.3 // indirect
 	github.com/prometheus/tsdb v0.8.0 // indirect
 	github.com/sirupsen/logrus v1.4.2 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
@@ -28,9 +29,9 @@ require (
 	golang.org/x/arch v0.0.0-20190312162104-788fe5ffcd8c // indirect
 	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4 // indirect
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859 // indirect
-	golang.org/x/sys v0.0.0-20190624142023-c5567b49c5d0 // indirect
+	golang.org/x/sys v0.0.0-20190626150813-e07cf5db2756 // indirect
 	golang.org/x/text v0.3.2 // indirect
-	golang.org/x/tools v0.0.0-20190624222133-a101b041ded4 // indirect
+	golang.org/x/tools v0.0.0-20190625160430-252024b82959 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
