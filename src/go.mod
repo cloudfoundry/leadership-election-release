@@ -6,6 +6,7 @@ require (
 	code.cloudfoundry.org/go-envstruct v1.4.0
 	github.com/OneOfOne/xxhash v1.2.5 // indirect
 	github.com/dgryski/go-sip13 v0.0.0-20190329191031-25c5027a8c7b // indirect
+	github.com/go-kit/kit v0.9.0 // indirect
 	github.com/gogo/protobuf v1.2.1 // indirect
 	github.com/google/pprof v0.0.0-20190515194954-54271f7e092f // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.1 // indirect
@@ -29,9 +30,9 @@ require (
 	golang.org/x/arch v0.0.0-20190312162104-788fe5ffcd8c // indirect
 	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4 // indirect
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859 // indirect
-	golang.org/x/sys v0.0.0-20190626150813-e07cf5db2756 // indirect
+	golang.org/x/sys v0.0.0-20190626221950-04f50cda93cb // indirect
 	golang.org/x/text v0.3.2 // indirect
-	golang.org/x/tools v0.0.0-20190625160430-252024b82959 // indirect
+	golang.org/x/tools v0.0.0-20190627033414-4874f863e654 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
