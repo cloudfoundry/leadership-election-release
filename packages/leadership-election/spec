@@ -2,7 +2,7 @@
 name: leadership-election
 
 dependencies:
-- golang1.12.4
+- golang-1-linux
 
 files:
 - app/**/*.go
