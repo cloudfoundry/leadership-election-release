@@ -3,7 +3,7 @@ module code.cloudfoundry.org/leadership-election
 go 1.12
 
 require (
-	code.cloudfoundry.org/go-envstruct v1.4.0
+	code.cloudfoundry.org/go-envstruct v1.5.0
 	github.com/golang/protobuf v1.3.2 // indirect
 	github.com/hashicorp/go-hclog v0.9.2 // indirect
 	github.com/hashicorp/go-immutable-radix v1.1.0 // indirect

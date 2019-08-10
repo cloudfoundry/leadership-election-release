@@ -1,4 +1,4 @@
-# code.cloudfoundry.org/go-envstruct v1.4.0
+# code.cloudfoundry.org/go-envstruct v1.5.0
 code.cloudfoundry.org/go-envstruct
 # github.com/armon/go-metrics v0.0.0-20190430140413-ec5e00d3c878
 github.com/armon/go-metrics
