@@ -27,9 +27,9 @@ properties:
   health_port:
     description: "The port where debug information will be served"
     default: 6060
-  ca_cert:
+  tls.ca_cert:
     description: "TLS CA cert to verify requests to leadership election"
-  cert:
+  tls.cert:
     description: "TLS certificate for leadership election"
-  key:
+  tls.key:
     description: "TLS private key for leadership election"
