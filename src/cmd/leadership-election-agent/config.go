@@ -25,6 +25,10 @@ type Config struct {
 	// If NodeAddrs is emptpy or size 1, then data is not routed as it is
 	// assumed that the current node is the only one.
 	NodeAddrs []string `env:"NODE_ADDRS"`
+
+	CAFile   string `env:"CA_FILE, required, report"`
+	CertFile string `env:"CERT_FILE, required, report"`
+	KeyFile  string `env:"KEY_FILE, required, report"`
 }
 
 func loadConfig() (Config, error) {

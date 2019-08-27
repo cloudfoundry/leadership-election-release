@@ -1,6 +1,8 @@
 package agent
 
 import (
+	"code.cloudfoundry.org/tlsconfig"
+	"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -88,27 +90,37 @@ func WithMetrics(m Metrics) AgentOption {
 }
 
 // Start starts the Agent. It does not block.
-func (a *Agent) Start() {
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", a.port))
+func (a *Agent) Start(caFile, certFile, keyFile string) {
+	tlsConfig, err := buildTLSConfig(caFile, certFile, keyFile)
+
+	lis, err := tls.Listen("tcp", fmt.Sprintf("localhost:%d", a.port), tlsConfig)
 	if err != nil {
 		a.log.Fatalf("failed to listen on localhost:%d", a.port)
 	}
 	a.lis = lis
 
-	metric := a.m.NewGauge("LeadershipStatus")
+	setLeadershipStatus := a.m.NewGauge("LeadershipStatus")
 
 	isLeader := a.startRaft()
 
 	go func() {
 		for range time.Tick(time.Second) {
 			if isLeader() {
-				metric(1)
+				setLeadershipStatus(1)
 				continue
 			}
-			metric(0)
+			setLeadershipStatus(0)
 		}
 	}()
 
+	srv := leaderStatusServer(isLeader)
+
+	go func() {
+		a.log.Fatal(srv.Serve(lis))
+	}()
+}
+
+func leaderStatusServer(isLeader func() bool) *http.Server {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/v1/leader", func(w http.ResponseWriter, r *http.Request) {
 		if isLeader() {
@@ -121,10 +133,20 @@ func (a *Agent) Start() {
 	srv := &http.Server{
 		Handler: mux,
 	}
+	return srv
+}
 
-	go func() {
-		a.log.Fatal(srv.Serve(lis))
-	}()
+func buildTLSConfig(caFile, certFile, keyFile string) (*tls.Config, error) {
+	tlsConfig, err := tlsconfig.Build(
+		tlsconfig.WithInternalServiceDefaults(),
+		tlsconfig.WithIdentityFromFile(certFile, keyFile),
+	).Server(
+		tlsconfig.WithClientAuthenticationFromFile(caFile),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return tlsConfig, err
 }
 
 func (a *Agent) startRaft() func() bool {

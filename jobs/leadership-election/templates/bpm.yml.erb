@@ -2,6 +2,8 @@
   sorted_instances=link("leader-election-agent").instances.sort_by {|i|i.address}
   index=sorted_instances.index(sorted_instances.find{|i|i.id == spec.id})
   addrs=sorted_instances.map{|i| "#{i.address}:#{p('port')}"}.join(',')
+
+  certs_dir="/var/vcap/jobs/leadership-election/config/certs"
 %>
 processes:
   - name: leadership-election
@@ -11,3 +13,6 @@ processes:
       HEALTH_PORT: <%= p("health_port") %>
       NODE_INDEX: "<%= index %>"
       NODE_ADDRS: "<%= addrs %>"
+      CA_FILE: "<%= certs_dir %>/leadership_election_ca.crt"
+      CERT_FILE: "<%= certs_dir %>/leadership_election.crt"
+      KEY_FILE: "<%= certs_dir %>/leadership_election.key"

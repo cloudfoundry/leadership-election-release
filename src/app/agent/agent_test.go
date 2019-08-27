@@ -1,8 +1,11 @@
 package agent_test
 
 import (
+	"code.cloudfoundry.org/tlsconfig"
+	"code.cloudfoundry.org/tlsconfig/certtest"
 	"fmt"
 	"github.com/onsi/gomega/types"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -15,10 +18,17 @@ import (
 var run = 10000
 
 var _ = Describe("Agent", func() {
-	var agents map[string]*agent.Agent
+	var (
+		agents     map[string]*agent.Agent
+		httpClient *http.Client
+	)
 
 	BeforeEach(func() {
 		agents = make(map[string]*agent.Agent)
+
+		ca, caFile := generateCA("leadershipCA")
+		clientCertPair := generateCertKeyPair(ca, "client")
+		serverCertPair := generateCertKeyPair(ca, "server")
 
 		var nodes []string
 
@@ -36,8 +46,23 @@ var _ = Describe("Agent", func() {
 				agent.WithPort(run+i),
 				agent.WithLogger(log.New(GinkgoWriter, fmt.Sprintf("[AGENT %d]", i), log.LstdFlags)),
 			)
-			a.Start()
-			agents[fmt.Sprintf("http://%s/v1/leader", a.Addr())] = a
+			a.Start(
+				caFile,
+				serverCertPair.certFile,
+				serverCertPair.keyFile,
+			)
+			agents[fmt.Sprintf("https://%s/v1/leader", a.Addr())] = a
+		}
+
+		tlsConfig, err := tlsconfig.Build(
+			tlsconfig.WithIdentityFromFile(clientCertPair.certFile, clientCertPair.keyFile),
+		).Client(
+			tlsconfig.WithAuthorityFromFile(caFile),
+		)
+		Expect(err).ToNot(HaveOccurred())
+
+		httpClient = &http.Client{
+			Transport: &http.Transport{TLSClientConfig: tlsConfig},
 		}
 	})
 
@@ -49,16 +74,16 @@ var _ = Describe("Agent", func() {
 	})
 
 	It("returns a 200 if it is the leader", func() {
-		Eventually(getLeaderStatusFunc(agents), 10).Should(haveSingleLeader(agents))
-		Consistently(getLeaderStatusFunc(agents), 3).Should(haveSingleLeader(agents))
+		Eventually(getLeaderStatusFunc(agents, httpClient), 10).Should(haveSingleLeader(agents))
+		Consistently(getLeaderStatusFunc(agents, httpClient), 3).Should(haveSingleLeader(agents))
 	})
 })
 
-func getLeaderStatusFunc(agents map[string]*agent.Agent) func() []int {
+func getLeaderStatusFunc(agents map[string]*agent.Agent, httpClient *http.Client) func() []int {
 	return func() []int {
 		var responses []int
 		for addr := range agents {
-			resp, err := http.Get(addr)
+			resp, err := httpClient.Get(addr)
 			Expect(err).ToNot(HaveOccurred())
 			Expect(resp.StatusCode).To(Or(Equal(http.StatusOK), Equal(http.StatusLocked)))
 
@@ -76,4 +101,60 @@ func haveSingleLeader(agents map[string]*agent.Agent) types.GomegaMatcher {
 	}
 
 	return ConsistOf(append(nonLeaders, http.StatusOK))
+}
+
+type certKeyPair struct {
+	certFile string
+	keyFile  string
+}
+
+func tmpFile(prefix string, caBytes []byte) string {
+	file, err := ioutil.TempFile("", prefix)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	_, err = file.Write(caBytes)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return file.Name()
+}
+
+func generateCA(caName string) (*certtest.Authority, string) {
+	ca, err := certtest.BuildCA(caName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	caBytes, err := ca.CertificatePEM()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fileName := tmpFile(caName+".crt", caBytes)
+
+	return ca, fileName
+}
+
+func generateCertKeyPair(ca *certtest.Authority, commonName string) certKeyPair {
+	cert, err := ca.BuildSignedCertificate(commonName, certtest.WithDomains(commonName))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	certBytes, keyBytes, err := cert.CertificatePEMAndPrivateKey()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	certFile := tmpFile(commonName+".crt", certBytes)
+	keyFile := tmpFile(commonName+".key", keyBytes)
+
+	return certKeyPair{
+		certFile: certFile,
+		keyFile:  keyFile,
+	}
 }

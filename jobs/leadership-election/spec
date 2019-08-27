@@ -2,8 +2,10 @@
 name: leadership-election
 
 templates:
-  ctl.erb: bin/ctl
   bpm.yml.erb: config/bpm.yml
+  leadership_election_ca.crt.erb: config/certs/leadership_election_ca.crt
+  leadership_election.crt.erb: config/certs/leadership_election.crt
+  leadership_election.key.erb: config/certs/leadership_election.key
 
 provides:
 - name: leader-election-agent
@@ -25,3 +27,9 @@ properties:
   health_port:
     description: "The port where debug information will be served"
     default: 6060
+  ca_cert:
+    description: "TLS CA cert to verify requests to leadership election"
+  cert:
+    description: "TLS certificate for leadership election"
+  key:
+    description: "TLS private key for leadership election"

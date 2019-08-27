@@ -34,7 +34,11 @@ func main() {
 		agent.WithPort(int(cfg.Port)),
 	)
 
-	a.Start()
+	a.Start(
+		cfg.CAFile,
+		cfg.CertFile,
+		cfg.KeyFile,
+	)
 
 	// health endpoints (pprof and expvar)
 	log.Printf("Health: %s", http.ListenAndServe(fmt.Sprintf("localhost:%d", cfg.HealthPort), nil))
