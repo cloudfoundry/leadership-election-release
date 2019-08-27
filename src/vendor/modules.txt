@@ -55,7 +55,7 @@ github.com/onsi/gomega/matchers/support/goraph/node
 github.com/onsi/gomega/matchers/support/goraph/util
 # github.com/square/certstrap v1.1.2-0.20181030173000-b612375892a7
 github.com/square/certstrap/pkix
-# golang.org/x/net v0.0.0-20190813141303-74dc4d7220e7
+# golang.org/x/net v0.0.0-20190827160401-ba9fcec4b297
 golang.org/x/net/html/charset
 golang.org/x/net/html
 golang.org/x/net/html/atom
