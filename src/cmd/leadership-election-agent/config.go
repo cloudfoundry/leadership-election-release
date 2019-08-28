@@ -4,6 +4,14 @@ import (
 	envstruct "code.cloudfoundry.org/go-envstruct"
 )
 
+// MetricsServer stores the configuration for the metrics server
+type MetricsServer struct {
+	Port     uint16 `env:"METRICS_PORT, report"`
+	CAFile   string `env:"METRICS_CA_FILE_PATH, required, report"`
+	CertFile string `env:"METRICS_CERT_FILE_PATH, required, report"`
+	KeyFile  string `env:"METRICS_KEY_FILE_PATH, required, report"`
+}
+
 type Config struct {
 	// Port is the HTTP port that the agent will bind to for localhost (e.g,
 	// http://localhost:<port>).
@@ -29,6 +37,8 @@ type Config struct {
 	CAFile   string `env:"CA_FILE, required, report"`
 	CertFile string `env:"CERT_FILE, required, report"`
 	KeyFile  string `env:"KEY_FILE, required, report"`
+
+	MetricsServer MetricsServer
 }
 
 func loadConfig() (Config, error) {

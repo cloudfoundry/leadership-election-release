@@ -1,6 +1,7 @@
 package agent
 
 import (
+	"code.cloudfoundry.org/go-loggregator/metrics"
 	"code.cloudfoundry.org/tlsconfig"
 	"crypto/tls"
 	"fmt"
@@ -69,17 +70,21 @@ func WithPort(port int) AgentOption {
 
 // Metrics registers Gauge metrics.
 type Metrics interface {
-	// NewGauge returns a function to set the value for the given
-	// metric.
-	NewGauge(name string) func(value float64)
+	NewGauge(name string, opts ...metrics.MetricOption) metrics.Gauge
 }
+
+type NopGauge struct{}
+
+func (n NopGauge) Add(float64) {}
+
+func (n NopGauge) Set(float64) {}
 
 // NopMetrics implements Metrics, but simply discards them.
 type NopMetrics struct{}
 
 // NewGauge implements Metrics.
-func (m NopMetrics) NewGauge(string) func(float64) {
-	return func(float64) {}
+func (m NopMetrics) NewGauge(name string, opts ...metrics.MetricOption) metrics.Gauge {
+	return NopGauge{}
 }
 
 // WithMetrics configures the metrics for Agent. Defaults to NopMetrics.
@@ -99,17 +104,17 @@ func (a *Agent) Start(caFile, certFile, keyFile string) {
 	}
 	a.lis = lis
 
-	setLeadershipStatus := a.m.NewGauge("LeadershipStatus")
+	setLeadershipStatus := a.m.NewGauge("leadership_status", metrics.WithHelpText("1 if this instance is the leader, 0 otherwise."))
 
 	isLeader := a.startRaft()
 
 	go func() {
 		for range time.Tick(time.Second) {
 			if isLeader() {
-				setLeadershipStatus(1)
+				setLeadershipStatus.Set(1)
 				continue
 			}
-			setLeadershipStatus(0)
+			setLeadershipStatus.Set(0)
 		}
 	}()
 
