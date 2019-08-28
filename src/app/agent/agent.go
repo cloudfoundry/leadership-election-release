@@ -185,7 +185,7 @@ func (a *Agent) startRaft() func() bool {
 	return func() bool {
 		a.mu.RLock()
 		defer a.mu.RUnlock()
-		return a.r.Leader() == raft.ServerAddress(localAddr)
+		return a.r.Leader() == raft.ServerAddress(addr.String())
 	}
 }
 

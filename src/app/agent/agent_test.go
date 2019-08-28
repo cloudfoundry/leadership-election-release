@@ -21,38 +21,18 @@ var _ = Describe("Agent", func() {
 	var (
 		agents     map[string]*agent.Agent
 		httpClient *http.Client
+
+		caFile  string
+		serverCertPair certKeyPair
 	)
 
 	BeforeEach(func() {
 		agents = make(map[string]*agent.Agent)
 
-		ca, caFile := generateCA("leadershipCA")
+		var ca *certtest.Authority
+		ca, caFile = generateCA("leadershipCA")
+		serverCertPair = generateCertKeyPair(ca, "server")
 		clientCertPair := generateCertKeyPair(ca, "client")
-		serverCertPair := generateCertKeyPair(ca, "server")
-
-		var nodes []string
-
-		// There are 3 intra network addresses and 7 fake addresses to simulate unresponsive agents
-		for i := 3; i <= 12; i++ {
-			nodes = append(nodes, fmt.Sprintf("127.0.0.1:%d", run+i))
-		}
-
-		for i := 0; i < 3; i++ {
-			a := agent.New(
-				i,
-				nodes,
-
-				// External address
-				agent.WithPort(run+i),
-				agent.WithLogger(log.New(GinkgoWriter, fmt.Sprintf("[AGENT %d]", i), log.LstdFlags)),
-			)
-			a.Start(
-				caFile,
-				serverCertPair.certFile,
-				serverCertPair.keyFile,
-			)
-			agents[fmt.Sprintf("https://%s/v1/leader", a.Addr())] = a
-		}
 
 		tlsConfig, err := tlsconfig.Build(
 			tlsconfig.WithIdentityFromFile(clientCertPair.certFile, clientCertPair.keyFile),
@@ -74,10 +54,56 @@ var _ = Describe("Agent", func() {
 	})
 
 	It("returns a 200 if it is the leader", func() {
+		var nodes []string
+
+		// There are 3 intra network addresses and 7 fake addresses to simulate unresponsive agents
+		for i := 3; i <= 12; i++ {
+			nodes = append(nodes, fmt.Sprintf("127.0.0.1:%d", run+i))
+		}
+
+		agents = startAgents(nodes, caFile, serverCertPair)
+
+		Eventually(getLeaderStatusFunc(agents, httpClient), 10).Should(haveSingleLeader(agents))
+		Consistently(getLeaderStatusFunc(agents, httpClient), 3).Should(haveSingleLeader(agents))
+	})
+
+	It("chooses a leader even if nodes are DNS entries", func() {
+		var nodes []string
+
+		// There are 3 intra network addresses and 7 fake addresses to simulate unresponsive agents
+		for i := 3; i <= 12; i++ {
+			nodes = append(nodes, fmt.Sprintf("localhost:%d", run+i))
+		}
+
+		agents = startAgents(nodes, caFile, serverCertPair)
+
 		Eventually(getLeaderStatusFunc(agents, httpClient), 10).Should(haveSingleLeader(agents))
 		Consistently(getLeaderStatusFunc(agents, httpClient), 3).Should(haveSingleLeader(agents))
 	})
 })
+
+func startAgents(nodes []string, caFile string, serverCertPair certKeyPair) map[string]*agent.Agent {
+	agents := map[string]*agent.Agent{}
+
+	for i := 0; i < 3; i++ {
+		a := agent.New(
+			i,
+			nodes,
+
+			// External address
+			agent.WithPort(run+i),
+			agent.WithLogger(log.New(GinkgoWriter, fmt.Sprintf("[AGENT %d]", i), log.LstdFlags)),
+		)
+		a.Start(
+			caFile,
+			serverCertPair.certFile,
+			serverCertPair.keyFile,
+		)
+		agents[fmt.Sprintf("https://%s/v1/leader", a.Addr())] = a
+	}
+
+	return agents
+}
 
 func getLeaderStatusFunc(agents map[string]*agent.Agent, httpClient *http.Client) func() []int {
 	return func() []int {
