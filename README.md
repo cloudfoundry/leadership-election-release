@@ -1,3 +1,5 @@
+**Archived** Now a part of https://github.com/cloudfoundry/system-metrics-release
+
 Leadership Election Release
 =================
 
