@@ -1,4 +1,7 @@
-**Archived** Now a part of https://github.com/cloudfoundry/system-metrics-release
+ATTENTION: This release is archived
+-----------------------------------
+
+Now a part of https://github.com/cloudfoundry/system-metrics-release
 
 Leadership Election Release
 =================
